@@ -64,7 +64,6 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'scrapbotanys.pipelines.CSVPipeline': 300,
-    'scrapbotanys.pipelines.XmlPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
