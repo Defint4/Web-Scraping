@@ -12,20 +12,36 @@
 #     def process_item(self, item, spider):
 #         return item
 
-from scrapy.exporters import CsvItemExporter
+from scrapy.exporters import CsvItemExporter    
 
-class CSVPipeline:
+class botanysPipeline(object):
 
-    def __init__(self):
+    def __init__(self):     
         self.file = open("itemsBotanys.csv", 'wb')
-        self.exporter = CsvItemExporter(self.file)
+        self.exporter = CsvItemExporter(self.file)   
         self.exporter.start_exporting()
 
     def close_spider(self, spider):
         self.exporter.finish_exporting()
         self.file.close()
 
+    def validate_item(self, name, price, link, image):
+
+        if not isinstance(name, str):
+            raise ValueError("Nom invalide")
+        
+        if not isinstance(price, float):
+            raise ValueError("Prix invalide")
+
+        if not isinstance(link, str):
+            raise ValueError("Lien invalide")
+
+        if not isinstance(image, str):
+            raise ValueError("Image invalide")
+
+        return name , price , link , image
+
     def process_item(self, item, spider):
+        item['name'],item['price'],item['link'],item['image'] = self.validate_item(item['name'],item['price'],item['link'],item['image'])
         self.exporter.export_item(item)
         return item
-    
